@@ -41,6 +41,7 @@ class memory : public hex
     private:
         //vector representing the memory
         std::vector<uint8_t> mem;
+        uint32_t loaded_size;
 
 };
 

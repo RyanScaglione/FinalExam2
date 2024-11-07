@@ -49,7 +49,7 @@ Notes: base destructor
  ************************************************************************/
 memory::~memory()
 {
-   delete[] mem_array;
+   
 }
 
 bool memory::check_illegal(uint32_t addr) const

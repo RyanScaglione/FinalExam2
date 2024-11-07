@@ -21,7 +21,7 @@
 
 using namespace std;
 
-static void usage(const string &program_name);
+static void usage();
 
 static void usage()
 {
