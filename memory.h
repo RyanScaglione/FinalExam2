@@ -1,7 +1,7 @@
 //*************************************************************************
 //Ryan Scaglione
 //z1996413
-//CSCI463
+//CSCI463 - PE1
 //
 //I certify that this is my own work, and where applicable an extension
 //of the starter code for the assignment
@@ -35,13 +35,14 @@ class memory : public hex
         void set32(uint32_t addr, uint32_t val);
         void dump() const;
         bool load_file(const std::string &fname);
+        uint32_t get_last_address() const;
 
     
     
     private:
         //vector representing the memory
         std::vector<uint8_t> mem;
-        uint32_t loaded_size;
+        uint32_t last_address = 0;
 
 };
 

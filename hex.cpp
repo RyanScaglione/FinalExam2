@@ -1,7 +1,7 @@
 //*************************************************************************
 //Ryan Scaglione
 //z1996413
-//CSCI463
+//CSCI463 - PE1
 //
 //I certify that this is my own work, and where applicable an extension
 //of the starter code for the assignment
@@ -69,5 +69,37 @@ Notes: Makes sure the string is 8 char long
 string hex::to_hex0x32(uint32_t i)
 {
     return string("0x") + to_hex32(i);
+}
+
+/*************************************************************************
+Function: to_hex0x20
+
+Use: Converts to a hex string with 20 LSB's
+
+Arguments: 1. uint32_t i: the integer we want to convert
+
+
+ ************************************************************************/
+string hex::to_hex0x20(uint32_t i)
+{
+    std::ostringstream oss;
+    oss << "0x" << setfill('0') << setw(5) << std::hex << (i & 0xfffff);
+    return oss.str();
+}
+
+/*************************************************************************
+Function: to_hex0x12
+
+Use: Converts to a hex string with 12 LSB's
+
+Arguments: 1. uint32_t i: the integer we want to convert
+
+
+ ************************************************************************/
+string hex::to_hex0x12(uint32_t i)
+{
+    ostringstream oss;
+    oss << "0x" << std::hex << setw(3) << setfill('0') << (i & 0x00000fff);
+    return oss.str();
 }
 

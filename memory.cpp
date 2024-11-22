@@ -2,13 +2,11 @@
 //Ryan Scaglione
 //z1996413
 //CSCI463 - PE1
-//Final Exam 1
+//
 //
 //I certify that this is my own work, and where applicable an extension
 //of the starter code for the assignment
-//Due date: 11/8/2024
 //
-//  This program simulates memory, takes an input
 //
 //*************************************************************************
 
@@ -49,7 +47,7 @@ Notes: base destructor
  ************************************************************************/
 memory::~memory()
 {
-   
+ 
 }
 
 bool memory::check_illegal(uint32_t addr) const
@@ -342,30 +340,35 @@ Notes: Makes sure the string is 2 chars long
  ************************************************************************/
 bool memory::load_file(const string &fname)
 {
-
-    ifstream infile(fname, ios::in | ios::binary);
-    if(!infile)
+    ifstream infile(fname, std::ios::binary);
+    if (!infile)
     {
-        cerr << "Can't open file " << fname << " for reading." << endl;
+        cerr << "Can't open file '" << fname << "' for reading." << endl;
         return false;
     }
 
-    //allows program to not skip white space
-    infile >> noskipws;
-
-    uint8_t byte;
     uint32_t addr = 0;
-    while(infile >> byte)
+    uint8_t byte;
+    while (infile.read((char *)&byte, 1))
     {
-        if(check_illegal(addr))
+        if (addr >= get_size())
         {
-            cerr << "Program too big" << endl;
+            cerr << "Program too big." << endl;
             infile.close();
             return false;
         }
         mem[addr++] = byte;
     }
-
     infile.close();
+
+    
+    if (addr > 0)
+    {
+        last_address = (addr - 1) & ~0x3; 
+    }
+    else
+    {
+        last_address = 0;
+    }
     return true;
 }

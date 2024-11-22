@@ -1,7 +1,7 @@
 //*************************************************************************
 //Ryan Scaglione
 //z1996413
-//CSCI463
+//CSCI463 - PE1
 //
 //I certify that this is my own work, and where applicable an extension
 //of the starter code for the assignment
@@ -17,6 +17,7 @@
 #include <string>   
 #include "memory.h"   
 #include "hex.h"  
+#include "rv32i_decode.h"
 
 
 using namespace std;
@@ -32,6 +33,25 @@ static void usage()
 
 
 /*************************************************************************
+Function: disassemble
+
+Use: iterates through memory and decodes every 32-bit instruction 
+
+Arguments: 1. &mem: reference to the memory
+
+
+Returns: void
+ ************************************************************************/
+static void disassemble(const memory &mem)
+{
+    for (uint32_t addr = 0; addr < mem.get_size(); addr += 4)
+    {
+        uint32_t insn = mem.get32(addr);
+        string decoded = rv32i_decode::decode(addr, insn);
+        cout << hex::to_hex32(addr) << ": " << hex::to_hex32(insn) << "  " << decoded << endl;
+    }
+}
+/*************************************************************************
 Function: main
 
 Use: The main driver function 
@@ -43,62 +63,32 @@ Returns: 0 if it's successful
  ************************************************************************/
 int main(int argc, char **argv)
 {
-	uint32_t memory_limit = 0x100;	// default memory size is 0x100
-
+	uint32_t memory_limit = 0x100; // default memory size = 256 bytes
 	int opt;
 	while ((opt = getopt(argc, argv, "m:")) != -1)
 	{
-		switch(opt)
+		switch (opt)
 		{
-		case 'm':
+			case 'm':
 			{
 				std::istringstream iss(optarg);
 				iss >> std::hex >> memory_limit;
 			}
 			break;
-
-		default:
+		default: /* ’?’ */
 			usage();
 		}
 	}
-
 	if (optind >= argc)
-		usage();	// missing filename
+		usage(); // missing filename
 
 	memory mem(memory_limit);
-	mem.dump();
 
 	if (!mem.load_file(argv[optind]))
 		usage();
 
-	mem.dump();
 
-	cout << mem.get_size() << endl;
-	cout << hex::to_hex32(mem.get8(0)) << endl;
-	cout << hex::to_hex32(mem.get16(0)) << endl;
-	cout << hex::to_hex32(mem.get32(0)) << endl;
-	cout << hex::to_hex0x32(mem.get8(0)) << endl;
-	cout << hex::to_hex0x32(mem.get16(0)) << endl;
-	cout << hex::to_hex0x32(mem.get32(0)) << endl;
-	cout << hex::to_hex8(mem.get8(0)) << endl;
-	cout << hex::to_hex8(mem.get16(0)) << endl;
-	cout << hex::to_hex8(mem.get32(0)) << endl;
-
-	cout << hex::to_hex0x32(mem.get32(0x1000)) << endl;
-
-	mem.set8(0x10, 0x12);
-	mem.set16(0x14, 0x1234);
-	mem.set32(0x18, 0x87654321);
-
-
-	cout << hex::to_hex0x32(mem.get8_sx(0x0f)) << endl;
-	cout << hex::to_hex0x32(mem.get8_sx(0x7f)) << endl;
-	cout << hex::to_hex0x32(mem.get8_sx(0x80)) << endl;
-	cout << hex::to_hex0x32(mem.get8_sx(0xe3)) << endl;
-
-	cout << hex::to_hex0x32(mem.get16_sx(0xe0)) << endl;
-	cout << hex::to_hex0x32(mem.get32_sx(0xe0)) << endl;
-
+	disassemble(mem);
 	mem.dump();
 
 	return 0;
