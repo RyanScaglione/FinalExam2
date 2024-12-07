@@ -217,9 +217,9 @@ int32_t rv32i_decode::get_imm_j(uint32_t insn)
     // Sign-extend
     if (imm & (1 << 20))
     {
-        
-    }
         imm |= 0xfff00000;
+    }
+        
 
     return imm;
 }
