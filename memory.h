@@ -20,7 +20,6 @@
 class memory : public hex
 {
     public:
-        memory();
         memory(uint32_t s);
         ~memory();
         bool check_illegal(uint32_t addr) const;

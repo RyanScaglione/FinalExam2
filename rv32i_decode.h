@@ -87,11 +87,6 @@ public:
     static const uint32_t funct3_csrrwi = 0x5;
     static const uint32_t funct3_csrrsi = 0x6;
     static const uint32_t funct3_csrrci = 0x7;
-
-    // System instruction imm fields
-    static const uint32_t ecall_imm   = 0x000;
-    static const uint32_t ebreak_imm  = 0x001;
-    
     //funct7 values ALU reg
     static const uint32_t funct7_add  = 0x00; 
      static const uint32_t funct7_sub  = 0x20; 
@@ -103,10 +98,14 @@ public:
     static const uint32_t funct7_sra  = 0x20; 
     static const uint32_t funct7_or   = 0x00; 
     static const uint32_t funct7_and  = 0x00; 
-    static uint32_t get_opcode(uint32_t insn);
+
     //Decode function
     static std::string decode(uint32_t addr, uint32_t insn);
-    static uint32_t get_rd(uint32_t insn);
+
+private:
+    //Helper functions 
+    static uint32_t get_opcode(uint32_t insn);
+     static uint32_t get_rd(uint32_t insn);
     static uint32_t get_rs1(uint32_t insn);
     static uint32_t get_rs2(uint32_t insn);
     static uint32_t get_funct3(uint32_t insn);
@@ -129,17 +128,11 @@ public:
     static std::string render_itype_alu(uint32_t insn, const std::string &mnemonic, int32_t imm_i);
     static std::string render_rtype(uint32_t insn, const std::string &mnemonic);
 
-    
-
     static std::string render_reg(int r);
     static std::string render_base_disp(int32_t imm, int r);
     static std::string render_mnemonic(const std::string &mnemonic);
     static std::string render_csrrx(uint32_t insn, const std::string &mnemonic);
     static std::string render_csrrxi(uint32_t insn, const std::string &mnemonic);
-private:
-    //Helper functions 
-    
-     
 
 };
 
